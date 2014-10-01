@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+<!--http://www.youtube.com/watch?v=3BN6MSB81dA-->
 <html>
     <head>
         <meta charset="UTF-8">
@@ -11,7 +11,7 @@
         }
         ul{
             float:left;
-            border:solid thin black;
+            border-right: 2px solid black;
             padding:15px;
             list-style-type: none;
             margin-left: 10px;
@@ -61,9 +61,11 @@
         </div>
         <?php
         session_start();
-
+        
+        $summa = 0;
+        $summa_item = 0;
         $tmp_antal = 0;
-        $indexOfArray=0;
+        $indexOfArray= 0;
         
         echo '<h2>Kundvagn</h2>';
         
@@ -86,7 +88,10 @@
                             //öka prod antal
                             
                             $_SESSION["kundvagn"][$tmp_produkt]["antal"] = $_SESSION["kundvagn"][$tmp_produkt]["antal"] + $tmp_antal;
+                            $_SESSION["kundvagn"][$tmp_produkt]["summa"] = $_SESSION["kundvagn"][$tmp_produkt]["antal"] * $_SESSION["kundvagn"][$tmp_produkt]["pris"];
+                            $summa = $summa + $_SESSION["kundvagn"][$tmp_produkt]["summa"];
                             $tmp_antal -= $tmp_antal;
+                            
                             
                             
                 
@@ -103,13 +108,16 @@
             }
             
             foreach($_SESSION["kundvagn"] as $item){
-                            
+
+                
                             echo '<ul>';
                             foreach($item as $info){
                                 echo '<li>';
                                 echo $info;
                                 echo '</li>';
+                                
                             }
+                            echo $summa/3;
                             echo '<form>'
                             . '<input type="hidden" name="produkt" value="$item">'
                             . '<input type="submit">'
@@ -117,7 +125,8 @@
                             echo '</ul>';
                             
                         }
-        } 
+        }
+        
         
         
 
@@ -128,11 +137,26 @@
         else {
             $_SESSION["kundvagn"] = array();
 
-            $_SESSION["kundvagn"][] = array("ProduktNamn" => "Satan", "pris" => 666, "antal" => 0);
-            $_SESSION["kundvagn"][] = array("ProduktNamn" => "Inte Satan", "pris" => 10, "antal" => 0);
-            $_SESSION["kundvagn"][] = array("ProduktNamn" => "Nummer 3", "pris" => 50, "antal" => 0);
+            $_SESSION["kundvagn"][] = array("ProduktNamn" => "Satan", "pris" => 666, "antal" => 0, "summa" => 0);
+            $_SESSION["kundvagn"][] = array("ProduktNamn" => "Inte Satan", "pris" => 10, "antal" => 0, "summa" => 0);
+            $_SESSION["kundvagn"][] = array("ProduktNamn" => "Nummer 3", "pris" => 50, "antal" => 0, "summa" => 0);
         }
         ?>
 
     </body>
 </html>
+
+
+
+<!--if($info=="pris"){
+                                    foreach($_SESSION["kundvagn"] as $itemtemp){
+                                        foreach($itemtemp as $infotemp){
+                                        if($infotemp=="antal"){
+                                            
+                                        }
+                                        else{
+                                            
+                                        }
+                                        }
+                                    $summa= $info+$summa;
+                                }-->
