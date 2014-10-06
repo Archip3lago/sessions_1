@@ -63,7 +63,6 @@
         session_start();
 
         $summa = 0;
-        $summa2 = 0;
         $summa_item = 0;
         $tmp_antal = 0;
         $indexOfArray = 0;
