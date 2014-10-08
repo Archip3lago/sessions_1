@@ -91,7 +91,7 @@
                 
                 //DEN HÄR RADEN FUNGERAR INTE AV OKÄND ANLEDNING -SOLVEPLS
                 $summa -= $_SESSION["kundvagn"][$_GET["id"]["summa"]];
-                
+                //ÖöööööööööööööööööööööööHHHHHH
                 
                 $_SESSION["kundvagn"][$_GET["id"]]["antal"] = 0;
             } else {
