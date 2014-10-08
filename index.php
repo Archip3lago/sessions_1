@@ -66,6 +66,7 @@
         $summa_item = 0;
         $tmp_antal = 0;
         $indexOfArray = 0;
+        $n = 0;
 
         echo '<h2>Kundvagn</h2>';
 
@@ -76,39 +77,54 @@
                 if (isset($_GET['antal'])) {
                     $tmp_antal = $_GET['antal'];
                     $tmp_produkt = $_GET['produkt'];
-                   
+
                     $_SESSION["kundvagn"][$tmp_produkt]["antal"] = $_SESSION["kundvagn"][$tmp_produkt]["antal"] + $tmp_antal;
                     $_SESSION["kundvagn"][$tmp_produkt]["summa"] = $_SESSION["kundvagn"][$tmp_produkt]["antal"] * $_SESSION["kundvagn"][$tmp_produkt]["pris"];
-                    foreach($_SESSION["kundvagn"] as $grej){
+                    foreach ($_SESSION["kundvagn"] as $grej) {
                         $summa = $summa + $grej["summa"];
                     }
-                    
-//                    $tmp_antal -= $tmp_antal;
                 }
+            }
+            //ta bort saker
+            if (isset($_GET['action']) and $_GET['action'] == "delete") {
+                
+                
+                //DEN HÄR RADEN FUNGERAR INTE AV OKÄND ANLEDNING -SOLVEPLS
+                $summa -= $_SESSION["kundvagn"][$_GET["id"]["summa"]];
+                
+                
+                $_SESSION["kundvagn"][$_GET["id"]]["antal"] = 0;
+            } else {
+                
             }
 
             foreach ($_SESSION["kundvagn"] as $item) {
 
+                if ($item["antal"] > 0) {
+                    echo '<ul>';
+                    foreach ($item as $info => $inget) {
+                        if($info != "id"){
+                        echo '<li>';
+                        echo $inget;
+                        echo '</li>';
+                        }
+                    }
 
-                echo '<ul>';
-                foreach ($item as $info) {
-                    echo '<li>';
-                    echo $info;
-                    echo '</li>';
+                    echo $summa;
+                    echo '<form>'
+                    . '<input type="submit" name="action" value="delete">'
+                    . "<input type='hidden' name='id' value='" . $item['id'] . "'>"
+                    . '</form>';
+                    echo '</ul>';
+                    
                 }
-                echo $summa;
-                echo '<form>'
-                . '<input type="hidden" name="produkt" value="$item">'
-                . '<input type="submit">'
-                . '</form>';
-                echo '</ul>';
             }
         } else {
             $_SESSION["kundvagn"] = array();
 
-            $_SESSION["kundvagn"][] = array("ProduktNamn" => "Satan", "pris" => 666, "antal" => 0, "summa" => 0);
-            $_SESSION["kundvagn"][] = array("ProduktNamn" => "Inte Satan", "pris" => 10, "antal" => 0, "summa" => 0);
-            $_SESSION["kundvagn"][] = array("ProduktNamn" => "Nummer 3", "pris" => 50, "antal" => 0, "summa" => 0);
+            $_SESSION["kundvagn"][] = array("ProduktNamn" => "Satan", "pris" => 666, "antal" => 0, "summa" => 0, "id" => 0);
+            $_SESSION["kundvagn"][] = array("ProduktNamn" => "Inte Satan", "pris" => 10, "antal" => 0, "summa" => 0, "id" => 1);
+            $_SESSION["kundvagn"][] = array("ProduktNamn" => "Nummer 3", "pris" => 50, "antal" => 0, "summa" => 0, "id" => 2);
         }
         ?>
 
@@ -117,15 +133,4 @@
 
 
 
-<!--if($info=="pris"){
-                                    foreach($_SESSION["kundvagn"] as $itemtemp){
-                                        foreach($itemtemp as $infotemp){
-                                        if($infotemp=="antal"){
-                                            
-                                        }
-                                        else{
-                                            
-                                        }
-                                        }
-                                    $summa= $info+$summa;
-                                }-->
+
